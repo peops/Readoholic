@@ -1,0 +1,22 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body{
+  background: #71b852;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.column {
+	top:30%;
+    left:50%;
+    float: left;
+    width: 30%;
+    padding: 10px;
+    border-style:dotted;
+    border-color:white;   
+    
+}
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
