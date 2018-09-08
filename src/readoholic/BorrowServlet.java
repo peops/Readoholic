@@ -20,32 +20,62 @@ public class BorrowServlet extends HttpServlet {
     	conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Asset> assets = DBMethod.read_assets(conn);
-		List<Asset> filtered_assets = new ArrayList<>();
-		
 		HttpSession hs=request.getSession(false);
-		User user=(User)hs.getAttribute("login_user");
-		
-		for(Asset a: assets){
-			if(a.getAssetOwnerId().equals(user.getUserName())==false){
-				filtered_assets.add(a);
+		if(hs!=null){ 
+			User user=(User)hs.getAttribute("login_user");
+			String sessionID = null;
+			String username = null;
+			Cookie[] cookies = request.getCookies();
+			if(cookies !=null){
+				for(Cookie cookie : cookies){
+					if(cookie.getName().equals("user")) username = cookie.getValue();
+					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
+				}
 			}
-		}
-		
-		RequestDispatcher rd = request.getRequestDispatcher("Borrow.jsp");
-		request.setAttribute("assetlist", filtered_assets);
-		rd.forward(request, response);
+			
+			List<Asset> assets = DBMethod.read_assets(conn);
+			List<Asset> filtered_assets = new ArrayList<>();
+			for(Asset a: assets){
+				if(a.getAssetOwnerId().equals(username)==false){
+					filtered_assets.add(a);
+				}
+			}
+			RequestDispatcher rd = request.getRequestDispatcher("Borrow.jsp");
+			request.setAttribute("assetlist", filtered_assets);
+			rd.forward(request, response);
+        }
+        else{
+        	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
+			request.setAttribute("msg","Log-In first!");
+			rd.forward(request, response);
+        }
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession hs=request.getSession(false);
-		User user=(User)hs.getAttribute("login_user");
-		
-		String selectedItem=request.getParameter("lend");
-		System.out.println(selectedItem);
-		DBMethod.edit_asset_status(conn, selectedItem, true, false);
-		DBMethod.edit_asset_borrower(conn, selectedItem, user.getUserName());
-		
-		RequestDispatcher rd = request.getRequestDispatcher("MainMenu.jsp");
-		rd.forward(request, response);
+        if(hs!=null){ 
+			User user=(User)hs.getAttribute("login_user");
+			String sessionID = null;
+			String username = null;
+			Cookie[] cookies = request.getCookies();
+			if(cookies !=null){
+				for(Cookie cookie : cookies){
+					if(cookie.getName().equals("user")) username = cookie.getValue();
+					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
+				}
+			}
+			
+			String selectedItem=request.getParameter("lend");
+			System.out.println(selectedItem);
+			DBMethod.edit_asset_status(conn, selectedItem, true, false);
+			DBMethod.edit_asset_borrower(conn, selectedItem, username);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("MainMenu.jsp");
+			rd.forward(request, response);
+        }
+        else{
+        	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
+			request.setAttribute("msg","Log-In first!");
+			rd.forward(request, response);
+        }
 	}
 }
