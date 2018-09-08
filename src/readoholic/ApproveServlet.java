@@ -11,55 +11,59 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet("/ApproveServlet")
 public class ApproveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Connection conn;
-	String db_url = "jdbc:postgresql://localhost";
-	String db_port = "5432";
-	String db_name = "postgres";
-	String db_user = "postgres";
-	String db_password = "postgres";
-	String url = "" + db_url + ":" + db_port + "/" + db_name + "";
+	private static Connection conn;
     public ApproveServlet() {
         super();
+        @SuppressWarnings("unused")
+        DBConnection dbcon = DBConnection.getInstance();
+    	conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
-        	Class.forName("org.postgresql.Driver");
-        	java.sql.Connection connection = DriverManager.getConnection(url, db_user, db_password);
-        	conn = connection;
-        	
-        	HttpSession hs=request.getSession(false);
-        	User user=(User)hs.getAttribute("login_user");
-        	
-        	List<Asset> assets = DBMethod.read_requested_assets(conn,user.getUserName());
-        	
-        	RequestDispatcher rd = request.getRequestDispatcher("Approve.jsp");
-        	request.setAttribute("assetlist", assets);
-        	rd.forward(request, response);
+        HttpSession hs=request.getSession(false);
+        if(hs!=null){ 
+			User user=(User)hs.getAttribute("login_user");
+			String username = null;
+			Cookie[] cookies = request.getCookies();
+			if(cookies !=null){
+				for(Cookie cookie : cookies){
+					if(cookie.getName().equals("user")) username = cookie.getValue();
+				}
+			}
+	        List<Asset> assets = DBMethod.read_requested_assets(conn,username);
+			RequestDispatcher rd = request.getRequestDispatcher("Approve.jsp");
+			request.setAttribute("assetlist", assets);
+			rd.forward(request, response);
         }
-        catch (SQLException | ClassNotFoundException ex) {
-        	System.out.println(ex.getMessage());
+        else{
+        	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
+			request.setAttribute("msg","Log-In first!");
+			rd.forward(request, response);
         }
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try{
-        	Class.forName("org.postgresql.Driver");
-        	java.sql.Connection connection = DriverManager.getConnection(url, db_user, db_password);
-        	conn = connection;
-        	
-        	HttpSession hs=request.getSession(false);
-        	User user=(User)hs.getAttribute("login_user");
-        	
-        	String assetId=request.getParameter("accept");
-        	Asset asset = DBMethod.read_asset(conn, assetId);
-        	DBMethod.edit_asset_status(conn, assetId, false, true);
-        	Transaction transaction = new Transaction(assetId, user.getUserName(), asset.getAssetBorrowerId(),20);
-        	DBMethod.add_transaction(conn, transaction);
-        	
-        	RequestDispatcher rd = request.getRequestDispatcher("MainMenu.jsp");
-        	rd.forward(request, response);	
+		HttpSession hs=request.getSession(false);
+        if(hs!=null){ 
+			User user=(User)hs.getAttribute("login_user");
+			String username = null;
+			Cookie[] cookies = request.getCookies();
+			if(cookies !=null){
+				for(Cookie cookie : cookies){
+					if(cookie.getName().equals("user")) username = cookie.getValue();
+				}
+			}
+			String assetId=request.getParameter("accept");
+			Asset asset = DBMethod.read_asset(conn, assetId);
+			DBMethod.edit_asset_status(conn, assetId, false, true);
+			Transaction transaction = new Transaction(assetId, username, asset.getAssetBorrowerId(),20);
+			DBMethod.add_transaction(conn, transaction);
+			RequestDispatcher rd = request.getRequestDispatcher("MainMenu.jsp");
+			rd.forward(request, response);
         }
-        catch (SQLException | ClassNotFoundException ex) {
-	        System.out.println(ex.getMessage());
-	    }
+        else{
+        	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
+			request.setAttribute("msg","Log-In first!");
+			rd.forward(request, response);
+        }
+		
 	}
 }
