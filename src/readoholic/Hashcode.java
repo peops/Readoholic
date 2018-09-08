@@ -26,7 +26,7 @@ public final class Hashcode {
 			while(hashtext.length() < 32 ){
 			  hashtext = "0"+hashtext;
 			}
-			return hashtext.substring(0, 5);
+			return hashtext;
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
