@@ -10,12 +10,17 @@
 			HttpSession hs=request.getSession(false); 
 			if(hs!=null){ 
 				User user=(User)hs.getAttribute("login_user");
+				String username = null;
+				String sessionID = null;
+				Cookie[] cookies = request.getCookies();
+				if(cookies !=null){
+					for(Cookie cookie : cookies){
+						if(cookie.getName().equals("user")) username = cookie.getValue();
+						if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
+					}
+				}
 		%>
-				<h1> Welcome 
-					<%
-						out.print(user.getUserName());
-					%>
-				</h1>
+				<h1> Welcome <% out.print(username); %>	</h1>
 				<h2> What do you want to do today?</h2>
 				<nav>
 				  <ul>
@@ -35,6 +40,10 @@
 				    <li><button>Notifications</button></li>
 				  </ul>
 				</nav>
+				<br>
+				<form action="LogoutServlet" method="post">
+					<input type="submit" value="Logout" >
+				</form>
 		<%	}
 			else{
 				RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");

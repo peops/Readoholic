@@ -25,12 +25,18 @@ public class LoginServlet extends HttpServlet {
         	String pass=request.getParameter("pass");
         	User user = DBMethod.login(conn,name,pass);
         	
-	    	if(user==null)
+	    	if(user!=null){
+				HttpSession hs=request.getSession();
+			 	hs.setAttribute("login_user",user);
+			 	hs.setMaxInactiveInterval(30*60);
+				Cookie username = new Cookie("user", user.getUserName());
+				username.setMaxAge(30*60);
+				response.addCookie(username);
+				response.sendRedirect("MainMenu.jsp");
+	    	}
+	    	else{
 	    		throw new NullPointerException();
-			HttpSession hs=request.getSession();
-		 	hs.setAttribute("login_user",user);
-			RequestDispatcher rd=request.getRequestDispatcher("MainMenu.jsp");
-			rd.forward(request, response);
+	    	}
     	}
         catch(SQLException | NullPointerException e){
     		RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");
