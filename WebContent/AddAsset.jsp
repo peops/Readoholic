@@ -17,6 +17,10 @@
 		      <button type="submit">submit</button>
 			  <p class="message"><a href="MainMenu.jsp">Go Back</a></p>
 		    </form>
+		    <br>
+			<form action="LogoutServlet" method="post">
+				<input type="submit" value="Logout" >
+			</form>
 		  </div>
 		</div>
 	</body>

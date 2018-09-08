@@ -42,5 +42,9 @@
 			} 
 		%>
 		</form>
+		<br>
+		<form action="LogoutServlet" method="post">
+			<input type="submit" value="Logout" >
+		</form>
 	</body>
 </html>
