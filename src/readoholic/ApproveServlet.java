@@ -22,11 +22,13 @@ public class ApproveServlet extends HttpServlet {
         HttpSession hs=request.getSession(false);
         if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
+			String sessionID = null;
 			String username = null;
 			Cookie[] cookies = request.getCookies();
 			if(cookies !=null){
 				for(Cookie cookie : cookies){
 					if(cookie.getName().equals("user")) username = cookie.getValue();
+					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
 				}
 			}
 	        List<Asset> assets = DBMethod.read_requested_assets(conn,username);
