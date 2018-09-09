@@ -7,9 +7,15 @@
 	</head>
 	<body >
 		<%
-			HttpSession hs=request.getSession(false); 
-			if(hs!=null){ 
-				User user=(User)hs.getAttribute("login_user");
+			HttpSession session=request.getSession();
+			if(session.getAttribute("user") == null){
+				System.out.println("check3");
+				RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
+				request.setAttribute("msg","Log-In first!");
+				rd.forward(request, response);
+			}
+			if(session!=null){ 
+				User user=(User)session.getAttribute("login_user");
 				String username = null;
 				String sessionID = null;
 				Cookie[] cookies = request.getCookies();
@@ -45,11 +51,6 @@
 					<input type="submit" value="Logout" >
 				</form>
 		<%	}
-			else{
-				RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
-				request.setAttribute("msg","Log-In first!");
-				rd.forward(request, response);
-			}
-		%>
+		%>	
 	</body>
 </html>

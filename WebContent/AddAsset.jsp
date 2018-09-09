@@ -5,6 +5,15 @@
 	<title>AMS</title>
 	<link rel="stylesheet" href="index.css">
 	</head>
+	<%
+		HttpSession session=request.getSession();
+		if(session.getAttribute("user") == null){
+			System.out.println("check3");
+			RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
+			request.setAttribute("msg","Log-In first!");
+			rd.forward(request, response);
+		}
+	%>
 	<body>
 		<div class="login-page">
 		  <div class="form" align="left">

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="java.util.*" import="readoholic.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="java.util.*" import="readoholic.*" session="false" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -10,8 +10,14 @@
 		<h1 align="center">Borrowed Products</h1>
 		<form action="ViewBorrowedServlet" method="post">
 			<%
-				HttpSession hs=request.getSession(false);
-				User user=(User)hs.getAttribute("login_user");
+				HttpSession session=request.getSession();
+				if(session.getAttribute("user") == null){
+					System.out.println("check3");
+					RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
+					request.setAttribute("msg","Log-In first!");
+					rd.forward(request, response);
+				}
+				User user=(User)session.getAttribute("login_user");
 				List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
 				if(assets.size()==0){
 			%>
