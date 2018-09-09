@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<h1 align="center">Borrowed Products</h1>
-		<form action="ViewBorrowedServlet" method="post">
+		<form action="ViewBorrowedAssetsServlet" method="post">
 			<%
 				HttpSession session=request.getSession();
 				if(session.getAttribute("login_user") == null){

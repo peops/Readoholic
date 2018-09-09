@@ -23,7 +23,7 @@
 		      <input type="text" name="description" placeholder="Description(Fridge,Tv,etc)"/>
 			  <input type="text" name="security" placeholder="Security Deposit" required/>	  
 		      <button type="submit">submit</button>
-			  <p class="message"><a href="MainMenu.jsp">Go Back</a></p>
+			  <p class="message"><a href="Dashboard.jsp">Go Back</a></p>
 		    </form>
 		    <br>
 			<form action="LogoutServlet" method="post">

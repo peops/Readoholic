@@ -9,11 +9,11 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/BorrowServlet")
-public class BorrowServlet extends HttpServlet {
+@WebServlet("/BorrowAssetServlet")
+public class BorrowAssetServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Connection conn;
-    public BorrowServlet() {
+    public BorrowAssetServlet() {
         super();
         @SuppressWarnings("unused")
         DBConnection dbcon = DBConnection.getInstance();
@@ -69,7 +69,7 @@ public class BorrowServlet extends HttpServlet {
 			DBMethod.edit_asset_status(conn, selectedItem, true, false);
 			DBMethod.edit_asset_borrower(conn, selectedItem, username);
 			
-			RequestDispatcher rd = request.getRequestDispatcher("MainMenu.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
 			rd.forward(request, response);
         }
         else{

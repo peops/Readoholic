@@ -5,10 +5,10 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/MainMenu")
-public class MainMenu extends HttpServlet {
+@WebServlet("/Dashboard")
+public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    public MainMenu() {
+    public Dashboard() {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

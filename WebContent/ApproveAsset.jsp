@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<h1 align="center">Approve Products</h1>
-		<form action="ApproveServlet" method="post">
+		<form action="ApproveAssetServlet" method="post">
 		<%
 			HttpSession session=request.getSession();
 			if(session.getAttribute("login_user") == null){

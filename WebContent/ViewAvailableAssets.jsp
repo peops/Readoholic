@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<h1 align="center">Assets owned by you</h1>
-		<form action="ViewAsset" method="post">
+		<form action="ViewAvailableAssetsServlet" method="post">
 		<%
 			HttpSession session=request.getSession();
 			if(session.getAttribute("login_user") == null){

@@ -32,14 +32,14 @@
 				    <li>Lend
 				      <ul class="drop-menu menu-1">
 				        <li><a href="AddAsset.jsp" style="text-decoration: none;color : white">Add Asset</a></li>
-				        <li><a href="ApproveServlet" style="text-decoration: none;color : white">Approve Asset</a></li>
-				        <li><a href="ViewAsset" style="text-decoration: none;color : white">View Assets</a></li>
+				        <li><a href="ApproveAssetServlet" style="text-decoration: none;color : white">Approve Asset</a></li>
+				        <li><a href="ViewAvailableAssetsServlet" style="text-decoration: none;color : white">View Assets</a></li>
 				      </ul>
 				    </li>
 				    <li>Borrow
 				      <ul class="drop-menu menu-2">
-				        <li><a href="BorrowServlet" style="text-decoration: none;color : white">Borrow Assets</a></li>
-				        <li><a href="ViewBorrowedServlet" style="text-decoration: none;color : white">View Borrowed</a></li>
+				        <li><a href="BorrowAssetServlet" style="text-decoration: none;color : white">Borrow Assets</a></li>
+				        <li><a href="ViewBorrowedAssetsServlet" style="text-decoration: none;color : white">View Borrowed</a></li>
 				      </ul>
 				    </li>
 				    <li><button>Notifications</button></li>

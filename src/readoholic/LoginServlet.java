@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
 				Cookie username = new Cookie("user", user.getUserName());
 				username.setMaxAge(30*60);
 				response.addCookie(username);
-				response.sendRedirect("MainMenu.jsp");
+				response.sendRedirect("Dashboard.jsp");
 	    	}
 	    	else{
 	    		throw new NullPointerException();

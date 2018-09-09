@@ -41,7 +41,7 @@ public class AddAssetServlet extends HttpServlet {
 			
 			Asset asset=new Asset(assetname,assetclass,username,description,security);
 			DBMethod.add_asset(conn, asset);
-			RequestDispatcher rd=request.getRequestDispatcher("MainMenu.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("Dashboard.jsp");
 			rd.forward(request, response);
         }
         else{

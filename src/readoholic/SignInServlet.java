@@ -6,11 +6,11 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/UserServlet")
-public class UserServlet extends HttpServlet implements DBMethod{
+@WebServlet("/SignInServlet")
+public class SignInServlet extends HttpServlet implements DBMethod{
 	private static final long serialVersionUID = 1L;
 	private static Connection conn;
-	public UserServlet() {
+	public SignInServlet() {
         super();
         @SuppressWarnings("unused")
         DBConnection dbcon = DBConnection.getInstance();

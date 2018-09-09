@@ -8,11 +8,11 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/ViewAsset")
-public class ViewAsset extends HttpServlet implements DBMethod{
+@WebServlet("/ViewAvailableAssetsServlet")
+public class ViewAvailableAssetsServlet extends HttpServlet implements DBMethod{
 	private static final long serialVersionUID = 1L;
 	private static Connection conn;
-	public ViewAsset() {
+	public ViewAvailableAssetsServlet() {
         super();
         @SuppressWarnings("unused")
         DBConnection dbcon = DBConnection.getInstance();
@@ -33,7 +33,7 @@ public class ViewAsset extends HttpServlet implements DBMethod{
 			}
 			List<Asset> assets = DBMethod.read_user_assets(conn, username);
 			if(assets!=null){
-				RequestDispatcher rd = request.getRequestDispatcher("ViewAsset.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("ViewAvailableAssets.jsp");
 				request.setAttribute("assetlist", assets);
 				rd.forward(request, response);
 			}			
@@ -60,7 +60,7 @@ public class ViewAsset extends HttpServlet implements DBMethod{
 			String id=request.getParameter("delete");
 	    	System.out.println(id);
 	    	DBMethod.delete_asset(conn, id);
-	    	RequestDispatcher rd = request.getRequestDispatcher("MainMenu.jsp");
+	    	RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
 	    	rd.forward(request, response);
         }
 	}
