@@ -9,7 +9,6 @@
 		<%
 			HttpSession session=request.getSession();
 			if(session.getAttribute("user") == null){
-				System.out.println("check3");
 				RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
 				request.setAttribute("msg","Log-In first!");
 				rd.forward(request, response);
