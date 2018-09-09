@@ -10,7 +10,7 @@
 		<form action="ViewAsset" method="post">
 		<%
 			HttpSession session=request.getSession();
-			if(session.getAttribute("user") == null){
+			if(session.getAttribute("login_user") == null){
 				RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
 				request.setAttribute("msg","Log-In first!");
 				rd.forward(request, response);
