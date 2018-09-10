@@ -38,9 +38,7 @@ public class ViewAvailableAssetsServlet extends HttpServlet implements DBMethod{
 				rd.forward(request, response);
 			}			
 			else{
-				RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");
-				request.setAttribute("msg","Some problem with with DB. Check back later!");
-				rd.forward(request, response);
+				response.sendRedirect("LoginServlet");
 			}
         }
 	}
@@ -60,8 +58,7 @@ public class ViewAvailableAssetsServlet extends HttpServlet implements DBMethod{
 			String id=request.getParameter("delete");
 	    	System.out.println(id);
 	    	DBMethod.delete_asset(conn, id);
-	    	RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
-	    	rd.forward(request, response);
+	    	response.sendRedirect("Dashboard");
         }
 	}
 }

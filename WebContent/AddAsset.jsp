@@ -1,18 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" session="false"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 	<head>
 	<title>AMS</title>
 	<link rel="stylesheet" href="index.css">
 	</head>
-	<%
-		HttpSession session=request.getSession();
-		if(session.getAttribute("login_user") == null){
-			RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
-			request.setAttribute("msg","Log-In first!");
-			rd.forward(request, response);
-		}
-	%>
 	<body>
 		<div class="login-page">
 		  <div class="form" align="left">

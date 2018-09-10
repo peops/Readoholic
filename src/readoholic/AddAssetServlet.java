@@ -1,6 +1,7 @@
 package readoholic;
 
 import java.sql.*;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -17,7 +18,24 @@ public class AddAssetServlet extends HttpServlet {
     	conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession hs=request.getSession(false);
+        if(hs!=null){ 
+			User user=(User)hs.getAttribute("login_user");
+			String sessionID = null;
+			String username = null;
+			Cookie[] cookies = request.getCookies();
+			if(cookies !=null){
+				for(Cookie cookie : cookies){
+					if(cookie.getName().equals("user")) username = cookie.getValue();
+					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
+				}
+			}
+	        RequestDispatcher rd = request.getRequestDispatcher("AddAsset.jsp");
+			rd.forward(request, response);
+        }
+        else{
+        	response.sendRedirect("LoginServlet");
+        }
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs=request.getSession(false);
@@ -41,13 +59,10 @@ public class AddAssetServlet extends HttpServlet {
 			
 			Asset asset=new Asset(assetname,assetclass,username,description,security);
 			DBMethod.add_asset(conn, asset);
-			RequestDispatcher rd=request.getRequestDispatcher("Dashboard.jsp");
-			rd.forward(request, response);
+			response.sendRedirect("Dashboard");
         }
         else{
-        	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
-			request.setAttribute("msg","Log-In first!");
-			rd.forward(request, response);
+        	response.sendRedirect("LoginServlet");
         }
 	}
 }

@@ -37,9 +37,7 @@ public class ViewBorrowedAssetsServlet extends HttpServlet {
 			rd.forward(request, response);
         }
         else{
-        	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
-			request.setAttribute("msg","Log-In first!");
-			rd.forward(request, response);
+        	response.sendRedirect("LoginServlet");
         }
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,7 +55,6 @@ public class ViewBorrowedAssetsServlet extends HttpServlet {
 		String id=request.getParameter("return");
 		DBMethod.edit_asset_status(conn, id, false, false);
 		DBMethod.edit_asset_borrower(conn, id, null);
-		RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
-		rd.forward(request, response);
+		response.sendRedirect("Dashboard");
 	}
 }

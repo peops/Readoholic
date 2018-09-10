@@ -45,9 +45,7 @@ public class BorrowAssetServlet extends HttpServlet {
 			rd.forward(request, response);
         }
         else{
-        	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
-			request.setAttribute("msg","Log-In first!");
-			rd.forward(request, response);
+        	response.sendRedirect("LoginServlet");
         }
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,14 +66,10 @@ public class BorrowAssetServlet extends HttpServlet {
 			System.out.println(selectedItem);
 			DBMethod.edit_asset_status(conn, selectedItem, true, false);
 			DBMethod.edit_asset_borrower(conn, selectedItem, username);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
-			rd.forward(request, response);
+			response.sendRedirect("Dashboard");
         }
         else{
-        	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
-			request.setAttribute("msg","Log-In first!");
-			rd.forward(request, response);
+        	response.sendRedirect("LoginServlet");
         }
 	}
 }

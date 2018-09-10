@@ -17,7 +17,25 @@ public class LoginServlet extends HttpServlet {
     	conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request,response);
+		HttpSession session=request.getSession(false);
+        if(session!=null){ 
+			User user=(User)session.getAttribute("login_user");
+			String sessionID = null;
+			String username = null;
+			Cookie[] cookies = request.getCookies();
+			if(cookies !=null){
+				for(Cookie cookie : cookies){
+					if(cookie.getName().equals("user")) username = cookie.getValue();
+					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
+				}
+			}
+			if(session != null){
+	    		session.invalidate();
+	    	}	        
+        }
+    	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
+    	rd.forward(request, response);
+		
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
@@ -32,16 +50,14 @@ public class LoginServlet extends HttpServlet {
 				Cookie username = new Cookie("user", user.getUserName());
 				username.setMaxAge(30*60);
 				response.addCookie(username);
-				response.sendRedirect("Dashboard.jsp");
+				response.sendRedirect("Dashboard");
 	    	}
 	    	else{
 	    		throw new NullPointerException();
 	    	}
     	}
         catch(SQLException | NullPointerException e){
-    		RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");
-    		request.setAttribute("msg", "Incorrect Id or Password!! Please re-login");
-			rd.forward(request,response);
+    		response.sendRedirect("LoginServlet");
     	}
 	}
 }

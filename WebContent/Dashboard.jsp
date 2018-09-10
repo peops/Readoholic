@@ -31,7 +31,7 @@
 				  <ul>
 				    <li>Lend
 				      <ul class="drop-menu menu-1">
-				        <li><a href="AddAsset.jsp" style="text-decoration: none;color : white">Add Asset</a></li>
+				        <li><a href="AddAssetServlet" style="text-decoration: none;color : white">Add Asset</a></li>
 				        <li><a href="ApproveAssetServlet" style="text-decoration: none;color : white">Approve Asset</a></li>
 				        <li><a href="ViewAvailableAssetsServlet" style="text-decoration: none;color : white">View Assets</a></li>
 				      </ul>

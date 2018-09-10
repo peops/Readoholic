@@ -12,7 +12,24 @@ public class Dashboard extends HttpServlet {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession hs=request.getSession(false);
+        if(hs!=null){ 
+			User user=(User)hs.getAttribute("login_user");
+			String sessionID = null;
+			String username = null;
+			Cookie[] cookies = request.getCookies();
+			if(cookies !=null){
+				for(Cookie cookie : cookies){
+					if(cookie.getName().equals("user")) username = cookie.getValue();
+					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
+				}
+			}
+	        RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
+			rd.forward(request, response);
+        }
+        else{
+        	response.sendRedirect("LoginServlet");
+        }
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);

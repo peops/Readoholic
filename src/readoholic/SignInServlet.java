@@ -30,8 +30,6 @@ public class SignInServlet extends HttpServlet implements DBMethod{
 		User user=new User(username,password,name,address,phone,email);
 		DBMethod.add_user(conn, user);
 		
-		RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");
-		request.setAttribute("msg","You are now registered, Please log in to access!");
-		rd.forward(request, response);    		
+		response.sendRedirect("LoginServlet");   		
 	}
 }
