@@ -7,7 +7,7 @@
 	</head>
 	<body>
 	  <div class="form">
-	    <form action="SignInServlet"  method="post">
+	    <form action="SignUp"  method="post">
 		  <input type="text" name="name"placeholder="name" required/>
 	      <input type="text" name="username"placeholder="username" required/>
 	      <input type="password" name="password" placeholder="password" required/>

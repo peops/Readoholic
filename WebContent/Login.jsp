@@ -8,7 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="index.css">
 	</head>
 	<body>
-		<form action="LoginServlet" method="post">
+		<form action="Login" method="post">
 			<div class="form">
 				<h1> Asset Management System</h1>
 				<input type="text" name="name" placeholder="name" required/><br>
@@ -20,7 +20,7 @@
 					}
 				%>
 				<button>Submit</button>
-				<p class="message">Not Registered? &emsp;<a href="Signup.jsp">Sign Up</a></p>
+				<p class="message">Not Registered? &emsp;<a href="SignUp.jsp">Sign Up</a></p>
 			</div>
 		</form>
 	</body>

@@ -16,22 +16,22 @@
 		  <ul>
 		    <li>Lend
 		      <ul class="drop-menu menu-1">
-		        <li><a href="AddAssetServlet" style="text-decoration: none;color : white">Add Asset</a></li>
-		        <li><a href="ApproveAssetServlet" style="text-decoration: none;color : white">Approve Asset</a></li>
-		        <li><a href="ViewAvailableAssetsServlet" style="text-decoration: none;color : white">View Assets</a></li>
+		        <li><a href="AddAsset" style="text-decoration: none;color : white">Add Asset</a></li>
+		        <li><a href="ApproveAsset" style="text-decoration: none;color : white">Approve Asset</a></li>
+		        <li><a href="ViewOwnedAsset" style="text-decoration: none;color : white">View Assets</a></li>
 		      </ul>
 		    </li>
 		    <li>Borrow
 		      <ul class="drop-menu menu-2">
-		        <li><a href="BorrowAssetServlet" style="text-decoration: none;color : white">Borrow Assets</a></li>
-		        <li><a href="ViewBorrowedAssetsServlet" style="text-decoration: none;color : white">View Borrowed</a></li>
+		        <li><a href="BorrowAsset" style="text-decoration: none;color : white">Borrow Assets</a></li>
+		        <li><a href="ViewBorrowedAsset" style="text-decoration: none;color : white">View Borrowed</a></li>
 		      </ul>
 		    </li>
 		    <li><button>Notifications</button></li>
 		  </ul>
 		</nav>
 		<br>
-		<form action="LogoutServlet" method="post">
+		<form action="Logout" method="post">
 			<input type="submit" value="Logout" >
 		</form>	
 	</body>

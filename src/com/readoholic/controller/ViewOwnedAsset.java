@@ -14,11 +14,11 @@ import com.readoholic.model.User;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/ViewAvailableAssetsServlet")
-public class ViewAvailableAssetsServlet extends HttpServlet implements DBMethod{
+@WebServlet("/ViewOwnedAsset")
+public class ViewOwnedAsset extends HttpServlet implements DBMethod{
 	private static final long serialVersionUID = 1L;
 	private static Connection conn;
-	public ViewAvailableAssetsServlet() {
+	public ViewOwnedAsset() {
         super();
         @SuppressWarnings("unused")
     	DBConnection dbcon = DBConnection.getInstance();
@@ -30,7 +30,7 @@ public class ViewAvailableAssetsServlet extends HttpServlet implements DBMethod{
 			User user=(User)hs.getAttribute("login_user");
 			List<Asset> assets = DBMethod.read_user_assets(conn, user.getName());
 			if(assets!=null){
-				RequestDispatcher rd = request.getRequestDispatcher("ViewAvailableAssets.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("ViewOwnedAsset.jsp");
 				request.setAttribute("assetlist", assets);
 				rd.forward(request, response);
 			}			
@@ -43,9 +43,8 @@ public class ViewAvailableAssetsServlet extends HttpServlet implements DBMethod{
 		HttpSession hs=request.getSession(false);
         if(hs!=null){ 
 			String id=request.getParameter("delete");
-	    	System.out.println(id);
 	    	DBMethod.delete_asset(conn, id);
-	    	response.sendRedirect("Dashboard");
+	    	response.sendRedirect("Home");
         }
 	}
 }

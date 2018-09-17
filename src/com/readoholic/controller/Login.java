@@ -12,11 +12,11 @@ import com.readoholic.model.User;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/Login")
+public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Connection conn;
-    public LoginServlet() {
+    public Login() {
     	super();
     	@SuppressWarnings("unused")
     	DBConnection dbcon = DBConnection.getInstance();
@@ -44,11 +44,11 @@ public class LoginServlet extends HttpServlet {
 				Cookie username = new Cookie("user", user.getUserName());
 				username.setMaxAge(30*60);
 				response.addCookie(username);
-				response.sendRedirect("Dashboard");
+				response.sendRedirect("Home");
 	    	}
     	}
         catch(SQLException | NullPointerException e){
-    		response.sendRedirect("LoginServlet");
+    		response.sendRedirect("Login");
     	}
 	}
 }

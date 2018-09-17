@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<h1 align="center">Approve Products</h1>
-		<form action="ApproveAssetServlet" method="post">
+		<form action="ApproveAsset" method="post">
 		<%
 				@SuppressWarnings("unchecked")
 				List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
@@ -40,7 +40,7 @@
 		%>
 		</form>
 		<br>
-		<form action="LogoutServlet" method="post">
+		<form action="Logout" method="post">
 			<input type="submit" value="Logout" >
 		</form>
 	</body>

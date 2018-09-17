@@ -11,11 +11,11 @@ import com.readoholic.model.User;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/SignInServlet")
-public class SignInServlet extends HttpServlet implements DBMethod{
+@WebServlet("/SignUp")
+public class SignUp extends HttpServlet implements DBMethod{
 	private static final long serialVersionUID = 1L;
 	private static Connection conn;
-	public SignInServlet() {
+	public SignUp() {
         super();
         @SuppressWarnings("unused")
     	DBConnection dbcon = DBConnection.getInstance();
@@ -35,6 +35,6 @@ public class SignInServlet extends HttpServlet implements DBMethod{
 		User user=new User(username,password,name,address,phone,email);
 		DBMethod.add_user(conn, user);
 		
-		response.sendRedirect("LoginServlet");   		
+		response.sendRedirect("Login");   		
 	}
 }

@@ -2,25 +2,27 @@ package com.readoholic.controller;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/LogoutServlet")
-public class LogoutServlet extends HttpServlet {
+@WebServlet("/Home")
+public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    public LogoutServlet() {
-    	super();
+    public Home() {
+        super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request,response);
+		HttpSession hs=request.getSession(false);
+        if(hs!=null){ 
+	        RequestDispatcher rd = request.getRequestDispatcher("Home.jsp");
+			rd.forward(request, response);
+        }
+        else{
+        	response.sendRedirect("Login");
+        }
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-    	HttpSession session = request.getSession(false);
-    	System.out.println("User="+session.getAttribute("user"));
-    	if(session != null){
-    		session.invalidate();
-    	}
-    	response.sendRedirect("LoginServlet");
+		doGet(request, response);
 	}
 }

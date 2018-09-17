@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<h1 align="center">Assets owned by you</h1>
-		<form action="ViewAvailableAssetsServlet" method="post">
+		<form action="ViewOwnedAsset" method="post">
 		<%
 			@SuppressWarnings("unchecked")
 			List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
@@ -57,7 +57,7 @@
 		%>
 		</form>
 		<br>
-		<form action="LogoutServlet" method="post">
+		<form action="Logout" method="post">
 			<input type="submit" value="Logout" >
 		</form>
 	</body>
