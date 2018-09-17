@@ -21,23 +21,14 @@ public class ViewAvailableAssetsServlet extends HttpServlet implements DBMethod{
 	public ViewAvailableAssetsServlet() {
         super();
         @SuppressWarnings("unused")
-        DBConnection dbcon = DBConnection.getInstance();
+    	DBConnection dbcon = DBConnection.getInstance();
     	conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession hs=request.getSession(false);
         if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
-			String username = null;
-			String sessionID = null;
-			Cookie[] cookies = request.getCookies();
-			if(cookies !=null){
-				for(Cookie cookie : cookies){
-					if(cookie.getName().equals("user")) username = cookie.getValue();
-					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
-				}
-			}
-			List<Asset> assets = DBMethod.read_user_assets(conn, username);
+			List<Asset> assets = DBMethod.read_user_assets(conn, user.getName());
 			if(assets!=null){
 				RequestDispatcher rd = request.getRequestDispatcher("ViewAvailableAssets.jsp");
 				request.setAttribute("assetlist", assets);
@@ -51,16 +42,6 @@ public class ViewAvailableAssetsServlet extends HttpServlet implements DBMethod{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs=request.getSession(false);
         if(hs!=null){ 
-			User user=(User)hs.getAttribute("login_user");
-			String username = null;
-			String sessionID = null;
-			Cookie[] cookies = request.getCookies();
-			if(cookies !=null){
-				for(Cookie cookie : cookies){
-					if(cookie.getName().equals("user")) username = cookie.getValue();
-					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
-				}
-			}
 			String id=request.getParameter("delete");
 	    	System.out.println(id);
 	    	DBMethod.delete_asset(conn, id);

@@ -22,27 +22,17 @@ public class BorrowAssetServlet extends HttpServlet {
     public BorrowAssetServlet() {
         super();
         @SuppressWarnings("unused")
-        DBConnection dbcon = DBConnection.getInstance();
-    	conn = DBConnection.getStatement();
+    	DBConnection dbcon = DBConnection.getInstance();
+        conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs=request.getSession(false);
 		if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
-			String sessionID = null;
-			String username = null;
-			Cookie[] cookies = request.getCookies();
-			if(cookies !=null){
-				for(Cookie cookie : cookies){
-					if(cookie.getName().equals("user")) username = cookie.getValue();
-					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
-				}
-			}
-			
 			List<Asset> assets = DBMethod.read_assets(conn);
 			List<Asset> filtered_assets = new ArrayList<>();
 			for(Asset a: assets){
-				if(a.getAssetOwnerId().equals(username)==false){
+				if(a.getAssetOwnerId().equals(user.getName())==false){
 					filtered_assets.add(a);
 				}
 			}
@@ -58,20 +48,10 @@ public class BorrowAssetServlet extends HttpServlet {
         HttpSession hs=request.getSession(false);
         if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
-			String sessionID = null;
-			String username = null;
-			Cookie[] cookies = request.getCookies();
-			if(cookies !=null){
-				for(Cookie cookie : cookies){
-					if(cookie.getName().equals("user")) username = cookie.getValue();
-					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
-				}
-			}
-			
 			String selectedItem=request.getParameter("lend");
 			System.out.println(selectedItem);
 			DBMethod.edit_asset_status(conn, selectedItem, true, false);
-			DBMethod.edit_asset_borrower(conn, selectedItem, username);
+			DBMethod.edit_asset_borrower(conn, selectedItem, user.getName());
 			response.sendRedirect("Dashboard");
         }
         else{

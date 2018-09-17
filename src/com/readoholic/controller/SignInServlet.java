@@ -18,7 +18,7 @@ public class SignInServlet extends HttpServlet implements DBMethod{
 	public SignInServlet() {
         super();
         @SuppressWarnings("unused")
-        DBConnection dbcon = DBConnection.getInstance();
+    	DBConnection dbcon = DBConnection.getInstance();
     	conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

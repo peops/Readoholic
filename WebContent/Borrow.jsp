@@ -10,12 +10,7 @@
 		<h1 align="center">Borrow Products</h1>
 		<form action="BorrowAssetServlet" method="post">
 		<%
-			HttpSession session=request.getSession();
-			if(session.getAttribute("login_user") == null){
-				RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
-				request.setAttribute("msg","Log-In first!");
-				rd.forward(request, response);
-			}
+			@SuppressWarnings("unchecked")
 			List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
 			if(assets.size()==0){
 		%>

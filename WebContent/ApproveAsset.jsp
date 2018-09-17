@@ -10,23 +10,7 @@
 		<h1 align="center">Approve Products</h1>
 		<form action="ApproveAssetServlet" method="post">
 		<%
-			HttpSession session=request.getSession();
-			if(session.getAttribute("login_user") == null){
-				RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
-				request.setAttribute("msg","Log-In first!");
-				rd.forward(request, response);
-			}
-			if(session!=null){ 
-				User user=(User)session.getAttribute("login_user");
-				String username = null;
-				String sessionID = null;
-				Cookie[] cookies = request.getCookies();
-				if(cookies !=null){
-					for(Cookie cookie : cookies){
-						if(cookie.getName().equals("user")) username = cookie.getValue();
-						if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
-					}
-				}
+				@SuppressWarnings("unchecked")
 				List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
 				if(assets.size()==0){
 					%><h2 align="center" style="padding:30px;">Nothing to show here.</h2><%
@@ -53,7 +37,6 @@
 		<%  
 					}
 				}
-			}
 		%>
 		</form>
 		<br>

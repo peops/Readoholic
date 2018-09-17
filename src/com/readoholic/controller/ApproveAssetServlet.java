@@ -22,23 +22,14 @@ public class ApproveAssetServlet extends HttpServlet {
     public ApproveAssetServlet() {
         super();
         @SuppressWarnings("unused")
-        DBConnection dbcon = DBConnection.getInstance();
-    	conn = DBConnection.getStatement();
+    	DBConnection dbcon = DBConnection.getInstance();
+        conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession hs=request.getSession(false);
         if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
-			String sessionID = null;
-			String username = null;
-			Cookie[] cookies = request.getCookies();
-			if(cookies !=null){
-				for(Cookie cookie : cookies){
-					if(cookie.getName().equals("user")) username = cookie.getValue();
-					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
-				}
-			}
-	        List<Asset> assets = DBMethod.read_requested_assets(conn,username);
+			List<Asset> assets = DBMethod.read_requested_assets(conn,user.getName());
 			RequestDispatcher rd = request.getRequestDispatcher("ApproveAsset.jsp");
 			request.setAttribute("assetlist", assets);
 			rd.forward(request, response);
@@ -51,17 +42,10 @@ public class ApproveAssetServlet extends HttpServlet {
 		HttpSession hs=request.getSession(false);
         if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
-			String username = null;
-			Cookie[] cookies = request.getCookies();
-			if(cookies !=null){
-				for(Cookie cookie : cookies){
-					if(cookie.getName().equals("user")) username = cookie.getValue();
-				}
-			}
 			String assetId=request.getParameter("accept");
 			Asset asset = DBMethod.read_asset(conn, assetId);
 			DBMethod.edit_asset_status(conn, assetId, false, true);
-			Transaction transaction = new Transaction(assetId, username, asset.getAssetBorrowerId(),20);
+			Transaction transaction = new Transaction(assetId, user.getName(), asset.getAssetBorrowerId(),20);
 			DBMethod.add_transaction(conn, transaction);
 			response.sendRedirect("Dashboard");
         }

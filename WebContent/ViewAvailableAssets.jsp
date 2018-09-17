@@ -9,12 +9,7 @@
 		<h1 align="center">Assets owned by you</h1>
 		<form action="ViewAvailableAssetsServlet" method="post">
 		<%
-			HttpSession session=request.getSession();
-			if(session.getAttribute("login_user") == null){
-				RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
-				request.setAttribute("msg","Log-In first!");
-				rd.forward(request, response);
-			}
+			@SuppressWarnings("unchecked")
 			List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
 			if(assets.size()==0){
 		%>

@@ -20,22 +20,13 @@ public class AddAssetServlet extends HttpServlet {
 	public AddAssetServlet() {
         super();
         @SuppressWarnings("unused")
-		DBConnection dbcon = DBConnection.getInstance();
-    	conn = DBConnection.getStatement();
+    	DBConnection dbcon = DBConnection.getInstance();
+    	
+        conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs=request.getSession(false);
         if(hs!=null){ 
-			User user=(User)hs.getAttribute("login_user");
-			String sessionID = null;
-			String username = null;
-			Cookie[] cookies = request.getCookies();
-			if(cookies !=null){
-				for(Cookie cookie : cookies){
-					if(cookie.getName().equals("user")) username = cookie.getValue();
-					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
-				}
-			}
 	        RequestDispatcher rd = request.getRequestDispatcher("AddAsset.jsp");
 			rd.forward(request, response);
         }
@@ -47,23 +38,13 @@ public class AddAssetServlet extends HttpServlet {
 		HttpSession hs=request.getSession(false);
 		if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
-			String sessionID = null;
-			String username = null;
-			Cookie[] cookies = request.getCookies();
-			if(cookies !=null){
-				for(Cookie cookie : cookies){
-					if(cookie.getName().equals("user")) username = cookie.getValue();
-					if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
-				}
-			}
-			
 			String assetname=request.getParameter("assetname");
 			String assetclass=request.getParameter("class");
 			String description=request.getParameter("description");
 			String sec=request.getParameter("security");
 			int security=Integer.parseInt(sec);
 			
-			Asset asset=new Asset(assetname,assetclass,username,description,security);
+			Asset asset=new Asset(assetname,assetclass,user.getName(),description,security);
 			DBMethod.add_asset(conn, asset);
 			response.sendRedirect("Dashboard");
         }
