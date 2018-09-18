@@ -21,7 +21,6 @@ public class AddAsset extends HttpServlet {
         super();
         @SuppressWarnings("unused")
     	DBConnection dbcon = DBConnection.getInstance();
-    	
         conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

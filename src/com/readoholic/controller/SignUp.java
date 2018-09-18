@@ -22,7 +22,12 @@ public class SignUp extends HttpServlet implements DBMethod{
     	conn = DBConnection.getStatement();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession hs=request.getSession(false);
+        if(hs!=null){ 
+	        hs.invalidate();
+        }
+        RequestDispatcher rd = request.getRequestDispatcher("SignUp.jsp");
+		rd.forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username=request.getParameter("username");
@@ -34,7 +39,6 @@ public class SignUp extends HttpServlet implements DBMethod{
 		
 		User user=new User(username,password,name,address,phone,email);
 		DBMethod.add_user(conn, user);
-		
 		response.sendRedirect("Login");   		
 	}
 }
