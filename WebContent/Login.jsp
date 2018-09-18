@@ -20,7 +20,7 @@
 					}
 				%>
 				<button>Submit</button>
-				<p class="message">Not Registered? &emsp;<a href="SignUp.jsp">Sign Up</a></p>
+				<p class="message">Not Registered? &emsp;<a href="SignUp">Sign Up</a></p>
 			</div>
 		</form>
 	</body>
