@@ -14,8 +14,8 @@
 		  <input type="email" name="email"placeholder="email Id" required/>
 		  <input type="text" name="address"placeholder="address" required/>
 		  <input type="text" name="phone"placeholder="phone number"/> 
-	      <a href="Login.jsp"><button type="submit">Register</button></a>
-	      <p class="message">Already a member:&emsp;<a href="Login.jsp">Sign In</a></p>
+	      <a href="Login"><button type="submit">Register</button></a>
+	      <p class="message">Already a member:&emsp;<a href="Login">Sign In</a></p>
 	    </form>
 	  </div>
 	</body>
