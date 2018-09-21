@@ -27,7 +27,7 @@ public class Login extends HttpServlet {
         if(session!=null){ 
 	   		session.invalidate();
         }
-    	RequestDispatcher rd =request.getRequestDispatcher("Login.jsp");
+    	RequestDispatcher rd =request.getRequestDispatcher("SignUp.jsp");
     	rd.forward(request, response);
 		
 	}

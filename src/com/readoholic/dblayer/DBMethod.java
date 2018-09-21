@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.readoholic.model.Book;
+import com.readoholic.model.Quote;
 import com.readoholic.model.Transaction;
 import com.readoholic.model.User;
 
@@ -35,6 +36,13 @@ import com.readoholic.model.User;
  * @author Innovationchef
  *
  */
+
+/** 
+ * CREATE TABLE quotes (quoteid SERIAL PRIMARY KEY, link varchar(150) NOT NULL, quote varchar(100) NOT NULL);
+ * @author Innovationchef
+ *
+ */
+
 public interface DBMethod {
 	static User user_resultset(ResultSet rs) throws SQLException{
 		User user = null;
@@ -383,4 +391,63 @@ public interface DBMethod {
 	        }
 	    }
 	}
+
+	static Quote quote_resultset(ResultSet rs) throws SQLException{
+		String link = rs.getString("link");
+        String quotetext = rs.getString("quote");
+        Quote quote = new Quote(link, quotetext);
+        return quote;
+	}
+	static Quote read_quote(Connection conn){
+		PreparedStatement preparedStatement = null;
+	    String query = "SELECT * FROM quotes OFFSET random() * (SELECT COUNT(*) FROM quotes) LIMIT 1";
+	    Quote quote = null;
+		try{
+	    	preparedStatement = conn.prepareStatement(query);
+	    	ResultSet rs = preparedStatement.executeQuery();
+	        while (rs.next()) {
+	        	quote = quote_resultset(rs);
+	        }
+	        return quote;
+	    } 
+	    catch(SQLException e ){
+	        System.out.println(e.getMessage());
+	        return quote;
+	    } 
+	    finally{
+	        if(preparedStatement != null){
+	        	try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	return quote;
+	        }
+	    }
+	}
+	static void add_quote(Connection conn, Quote quote){
+		PreparedStatement preparedStatement = null;
+	    String query = "INSERT INTO quotes(link, quote) VALUES(?,?)";
+	    try{
+	    	preparedStatement = conn.prepareStatement(query);
+	    	preparedStatement.setString(1, quote.getLink());
+	    	preparedStatement.setString(2, quote.getQuotetext());
+	    	preparedStatement.executeUpdate();
+	    } 
+	    catch(SQLException e ){
+	        System.out.println(e.getMessage());
+	    } 
+	    finally{
+	        if(preparedStatement != null){
+	        	try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+	    }
+	}
+
 }
