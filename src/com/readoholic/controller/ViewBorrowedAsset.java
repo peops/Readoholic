@@ -1,14 +1,16 @@
 package com.readoholic.controller;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.readoholic.dblayer.DBConnection;
 import com.readoholic.dblayer.DBMethod;
-import com.readoholic.model.Asset;
+import com.readoholic.model.Book;
 import com.readoholic.model.User;
 
 import java.io.IOException;
@@ -28,9 +30,9 @@ public class ViewBorrowedAsset extends HttpServlet {
 		HttpSession hs=request.getSession(false);
 		if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
-			List<Asset> assets = DBMethod.read_borrowed_assets(conn, user.getName());
+			Map <Book, String> books = DBMethod.read_borrowed_assets(conn, user.getUsername());
 			RequestDispatcher rd = request.getRequestDispatcher("ViewBorrowedAsset.jsp");
-			request.setAttribute("assetlist",assets);
+			request.setAttribute("booklist",books);
 			rd.forward(request, response);
         }
         else{
@@ -38,9 +40,11 @@ public class ViewBorrowedAsset extends HttpServlet {
         }
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id=request.getParameter("return");
-		DBMethod.edit_asset_status(conn, id, false, false);
-		DBMethod.edit_asset_borrower(conn, id, null);
+		
+		String bookid=request.getParameter("return");
+		List<String> ids = Arrays.asList(bookid.split(":"));
+		DBMethod.edit_book_status(conn, ids.get(0), false);
+		DBMethod.delete_transaction(conn, ids.get(1));
 		response.sendRedirect("Home");
 	}
 }

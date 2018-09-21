@@ -11,26 +11,20 @@
 		<form action="ApproveAsset" method="post">
 		<%
 				@SuppressWarnings("unchecked")
-				List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
-				if(assets.size()==0){
+				List<Book> books=(List<Book>)request.getAttribute("booklist");
+				if(books.size()==0){
 					%><h2 align="center" style="padding:30px;">Nothing to show here.</h2><%
 				}
 				else{
-					for(Asset b:assets) 
+					for(Book b:books) 
 					{
 		%>
 			
 					<div class="row">
 					  <div class="column" style="background-color:#aaa;"> 
-					  	<h2>Product Id: <%out.print(b.getAssetId()); %></h2>
+					  	<h2>Product Id: <%out.print(b.getBookId()); %></h2>
 					    <p>
-					       Product Name: 		<%out.print(b.getAssetName()); %> <br>
-					   	   Product Class: 		<%out.print(b.getAssetClass()); %> <br> 
-					       Product Description: <%out.print(b.getAssetDescription()); %>  <br>
-					       Security Deposit: 	<%out.print(b.getAssetSecurityDeposit()); %> <br>
-					       Borrower Id:			<%out.print(b.getAssetBorrowerId()); %><br>
-					       &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-					       <button type="submit" name="accept" value="<%out.print(b.getAssetId());%>">Approve</button>
+					       Product Name: 		<%out.print(b.getBookName()); %> <br>
 					   	</p>
 					  </div>
 					</div>

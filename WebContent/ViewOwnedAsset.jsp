@@ -10,41 +10,29 @@
 		<form action="ViewOwnedAsset" method="post">
 		<%
 			@SuppressWarnings("unchecked")
-			List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
-			if(assets.size()==0){
+			List<Book> books=(List<Book>)request.getAttribute("booklist");
+			if(books.size()==0){
 		%>
 			<h2 align="center" style="padding:30px;">Nothing to show here.</h2>
 		<%
 			}
 			else{
-				for(Asset b : assets){
+				for(Book b : books){
 		%>
 					<div class="row">
 						<div class="column" style="background-color:#aaa;"> 
-						  	<h2>Product Id: <%out.print(b.getAssetId()); %></h2>
+						  	<h2>Product Id: <%out.print(b.getBookId()); %></h2>
 						    <p>
-						    Product Name: 		<%out.print(b.getAssetName()); %> <br>
-						   	Product Class: 		<%out.print(b.getAssetClass()); %> <br>
-						    Product Description: <%out.print(b.getAssetDescription()); %> <br>
-						    Security Deposit: 	<%out.print(b.getAssetSecurityDeposit()); %> <br>
+						    Product Name: 		<%out.print(b.getBookName()); %> <br>
 						    Product Status:		
-						    					<% if(b.isAssetAllocationStatus()==true){
+						    					<% if(b.isBookAllocationStatus()==true){
 						    	  							 out.print("Allocated");
-						    	  				%>
-						    	  							 <br>
-						    	  							 Borrower Id:
-						    	  				<% 			
-						    	  							 out.println(b.getAssetBorrowerId());
-													}
-						      						else if(b.isAssetRequestStatus()==true){
-						    	   							out.print("Requested");
-						    	   				%>			&emsp;&emsp;<button type="submit" name="delete" value= <%out.print(b.getAssetId());%>>Delete Asset</button><br>
-						    	   							Requested by:
-						    	   				<% 			out.println(b.getAssetBorrowerId());
-						       						}
+						    	   				%>			&emsp;&emsp;<button type="submit" name="delete" value= <%out.print(b.getBookId());%>>Delete Asset</button><br>
+						    	   				<% 
+						    	   					}
 													else{
 													       out.print("Available");
-												%>		   &emsp;&emsp;<button type="submit" name="delete" value= <%out.print(b.getAssetId());%>>Delete Asset</button>
+												%>		   &emsp;&emsp;<button type="submit" name="delete" value= <%out.print(b.getBookId());%>>Delete Asset</button>
 												<% 
 													}
 												%> <br>

@@ -34,16 +34,16 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         	
-        	String name=request.getParameter("name");
-        	String pass=request.getParameter("pass");
-        	User user = DBMethod.login(conn,name,pass); 
+        	String username=request.getParameter("username");
+        	String password=request.getParameter("password");
+        	User user = DBMethod.login(conn,username,password); 
         	if(user!=null){
 				HttpSession hs=request.getSession();
 			 	hs.setAttribute("login_user",user);
 			 	hs.setMaxInactiveInterval(30*60);
-				Cookie username = new Cookie("user", user.getUserName());
-				username.setMaxAge(30*60);
-				response.addCookie(username);
+				Cookie cookie = new Cookie("user", user.getUsername());
+				cookie.setMaxAge(30*60);
+				response.addCookie(cookie);
 				response.sendRedirect("Home");
 	    	}
     	}

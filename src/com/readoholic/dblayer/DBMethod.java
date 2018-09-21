@@ -2,50 +2,55 @@ package com.readoholic.dblayer;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.readoholic.model.Asset;
+import com.readoholic.model.Book;
 import com.readoholic.model.Transaction;
 import com.readoholic.model.User;
 
 /** 
- * CREATE TABLE users (username varchar(50) PRIMARY KEY, password varchar(20) NOT NULL, 
-   						name varchar(50) NOT NULL, email varchar(40) NOT NULL, 
-   						phone char(10) NOT NULL, address varchar(50) NOT NULL);
+ * CREATE TABLE users (rollno varchar(10) PRIMARY KEY, username varchar(20) NOT NULL, pass_word varchar(20) NOT NULL, 
+   						firstname varchar(50) NOT NULL, lastname varchar(50) NOT NULL, roomno varchar(5) NOT NULL, 
+   						hall varchar(3) NOT NULL, email varchar(40) NOT NULL, 
+   						phoneno varchar(10) NOT NULL);
  * @author Innovationchef
  * 
  */
 
 /** 
- * CREATE TABLE assets (assetId varchar(50) PRIMARY KEY, assetName varchar(40) NOT NULL, 
-  						assetClass varchar(30) NOT NULL, assetOwnerId varchar(50) NOT NULL, assetBorrowerId varchar(50),
-  						assetDescription varchar(100) NOT NULL, assetSecurityDeposit bigint NOT NULL, 
-  						assetRequestStatus BOOLEAN NOT NULL, assetAllocationStatus BOOLEAN NOT NULL);
+ * CREATE TABLE books (bookid varchar(70) PRIMARY KEY, bookname varchar(70) NOT NULL, 
+  						bookgenre varchar(30) NOT NULL, bookauthor varchar(50) NOT NULL, language varchar(70) NOT NULL, 
+  						bookowner varchar(50) NOT NULL, bookdescription varchar(500) NOT NULL, 
+  						booksecuritydeposit bigint NOT NULL, bookallocationstatus BOOLEAN NOT NULL);
  * @author Innovationchef
  *
  */
 
 /** 
- * CREATE TABLE transactions (transactionid varchar(50) PRIMARY KEY, assetlenderid varchar(50) NOT NULL, 
-  						borrowerId varchar(50) NOT NULL, assetid varchar(50) NOT NULL, lenddate varchar(50) NOT NULL,
-  						returndate varchar(50) NOT NULL);
+ * CREATE TABLE transactions (transactionid varchar(50) PRIMARY KEY, bookid varchar(50) NOT NULL, lenderid varchar(50) NOT NULL, 
+  						borrowerid varchar(50) NOT NULL, lenddate varchar(50) NOT NULL,
+  						returndate varchar(50) NOT NULL, phoneno char(10) NOT NULL, roomno varchar(5) NOT NULL, hall varchar(3) NOT NULL);
  * @author Innovationchef
  *
  */
 public interface DBMethod {
 	static User user_resultset(ResultSet rs) throws SQLException{
 		User user = null;
-        String usern = rs.getString("username");
-        String name = rs.getString("name");
-        String phone = rs.getString("phone");
+		String usern = rs.getString("username");
+        String firstname = rs.getString("firstname");
+        String lastname = rs.getString("lastname");
+        String phoneno = rs.getString("phoneno");
+        String roomno = rs.getString("roomno");
+        String hall = rs.getString("hall");
         String email = rs.getString("email");
-        String address = rs.getString("address");
-        user = new User(usern, name, address, phone, email);
+        user = new User(usern, firstname, lastname, phoneno, roomno, hall,  email);
         return user;
 	}
 	static User login(Connection conn, String username, String password) throws SQLException{
 		PreparedStatement preparedStatement = null;
-	    String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+	    String query = "SELECT * FROM users WHERE username = ? AND pass_word = ?";
 	    User user = null;
 	    preparedStatement = conn.prepareStatement(query);
     	preparedStatement.setString(1, username);
@@ -70,18 +75,21 @@ public interface DBMethod {
 	}
 	static void add_user(Connection conn, User user){
 		PreparedStatement preparedStatement = null;
-	    String query = "INSERT INTO users(username, password, name, email, phone, address) VALUES(?,?,?,?,?,?)";
+		String query = "INSERT INTO users(rollno, username, pass_word, firstname, lastname,roomno, hall,  email,  phoneno) VALUES(?,?,?,?,?,?,?,?,?)";
 	    try{
 	    	preparedStatement = conn.prepareStatement(query);
-	    	preparedStatement.setString(1, user.getUserName());
-	    	preparedStatement.setString(2, user.getPassword());
-	    	preparedStatement.setString(3, user.getName());
-	    	preparedStatement.setString(4, user.getEmail());
-	    	preparedStatement.setString(5, user.getPhoneNo());
-	    	preparedStatement.setString(6, user.getAddress());
+	    	preparedStatement.setString(1, user.getRollno());
+	    	preparedStatement.setString(2, user.getUsername());
+	    	preparedStatement.setString(3, user.getPassword());
+	    	preparedStatement.setString(4, user.getFirstName());
+	    	preparedStatement.setString(5, user.getLastName());
+	    	preparedStatement.setString(6, user.getRoomno());
+	    	preparedStatement.setString(7, user.getHall());
+	    	preparedStatement.setString(8, user.getEmail());
+	    	preparedStatement.setString(9, user.getPhoneno());
 	        preparedStatement.executeUpdate();
 	        preparedStatement.close();
-	    } 
+	    }
 	    catch(SQLException e ){
 	        System.out.println(e.getMessage());
 	    } 
@@ -97,184 +105,34 @@ public interface DBMethod {
 	    }
 	}
 	
-	static Asset asset_resultset(ResultSet rs) throws SQLException{
-        String assetId = rs.getString("assetid");
-        String assetName = rs.getString("assetname");
-        String assetClass = rs.getString("assetclass");
-        String assetOwnerId = rs.getString("assetownerid");
-        String assetBorrowerId = rs.getString("assetborrowerid");
-        String assetDescription = rs.getString("assetdescription");
-        int assetSecurityDeposit = rs.getInt("assetsecuritydeposit");
-        boolean assetRequestStatus = rs.getBoolean("assetrequeststatus");
-        boolean assetAllocationStatus = rs.getBoolean("assetallocationstatus");    
-        Asset asset = new Asset(assetId, assetName, assetClass, assetOwnerId, assetBorrowerId, assetDescription,
-        						assetSecurityDeposit, assetRequestStatus, assetAllocationStatus);
-        return asset;
+	static Book book_resultset(ResultSet rs) throws SQLException{
+        String bookId = rs.getString("bookid");
+        String bookName = rs.getString("bookname");
+        String bookGenre = rs.getString("bookgenre");
+        String bookAuthor = rs.getString("bookauthor");
+        String language = rs.getString("language");
+        String bookOwner = rs.getString("bookowner");
+        String bookDescription = rs.getString("bookdescription");
+        int bookSecurityDeposit = rs.getInt("booksecuritydeposit");
+        boolean bookAllocationStatus = rs.getBoolean("bookallocationstatus");    
+        Book book = new Book(bookId, bookName, bookGenre, bookAuthor, language, bookOwner, bookDescription,
+        						bookSecurityDeposit, bookAllocationStatus);
+        return book;
 	}
-	static List<Asset> read_assets(Connection conn){
+	static void add_book(Connection conn, Book book){
 		PreparedStatement preparedStatement = null;
-	    String query = "SELECT * FROM assets WHERE assetrequeststatus = FALSE AND assetallocationstatus = FALSE";
-	    List<Asset> assets = new ArrayList<>();
+		String query = "INSERT INTO books(bookid, bookname, bookgenre, bookauthor, language, bookowner, bookdescription, booksecuritydeposit, bookallocationstatus) VALUES(?,?,?,?,?,?,?,?,?)";	
 	    try{
 	    	preparedStatement = conn.prepareStatement(query);
-	    	ResultSet rs = preparedStatement.executeQuery();
-	    	while(rs.next()){
-	    		Asset asset = asset_resultset(rs);
-	    		assets.add(asset);
-	    	}
-	        return assets;
-	    } 
-	    catch(SQLException e ){
-	        System.out.println(e.getMessage());
-	        return assets;
-	    } 
-	    finally{
-	        if(preparedStatement != null){
-	        	try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	return assets;
-	        }   
-	    }
-	}
-	static Asset read_asset(Connection conn, String id){
-		PreparedStatement preparedStatement = null;
-	    String query = "SELECT * FROM assets where assetid = ?";
-	    Asset asset = null;
-	    try{
-	    	preparedStatement = conn.prepareStatement(query);
-	    	preparedStatement.setString(1, id);
-	    	ResultSet rs = preparedStatement.executeQuery();
-	    	while(rs.next()){
-	    		asset = asset_resultset(rs);
-	    	}
-	        return asset;
-	    } 
-	    catch(SQLException e ){
-	        System.out.println(e.getMessage());
-	        return asset;
-	    } 
-	    finally{
-	        if(preparedStatement != null){
-	        	try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	return asset;
-	        }   
-	    }
-	}
-	static List<Asset> read_requested_assets(Connection conn, String userId){
-		PreparedStatement preparedStatement = null;
-	    String query = "SELECT * FROM assets WHERE assetrequeststatus = TRUE AND assetownerid = ?";
-	    List<Asset> assets = new ArrayList<>();
-	    try{
-	    	preparedStatement = conn.prepareStatement(query);
-	    	preparedStatement.setString(1, userId);
-	    	ResultSet rs = preparedStatement.executeQuery();
-	    	while(rs.next()){
-	    		Asset asset = asset_resultset(rs);
-	    		assets.add(asset);
-	    	}
-	        return assets;
-	    } 
-	    catch(SQLException e ){
-	        System.out.println(e.getMessage());
-	        return assets;
-	    } 
-	    finally{
-	        if(preparedStatement != null){
-	        	try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	return assets;
-	        }   
-	    }
-	}	
-	static List<Asset> read_user_assets(Connection conn, String userId){
-		PreparedStatement preparedStatement = null;
-	    String query = "SELECT * FROM assets WHERE assetownerid = ?";
-	    List<Asset> assets = new ArrayList<>();
-	    try{
-	    	preparedStatement = conn.prepareStatement(query);
-	    	preparedStatement.setString(1, userId);
-	    	ResultSet rs = preparedStatement.executeQuery();
-	    	while(rs.next()){
-	    		Asset asset = asset_resultset(rs);
-	    		assets.add(asset);
-	    	}
-	        return assets;
-	    } 
-	    catch(SQLException e ){
-	        System.out.println(e.getMessage());
-	        return assets;
-	    } 
-	    finally{
-	        if(preparedStatement != null){
-	        	try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	return assets;
-	        }   
-	    }
-	}	
-	static List<Asset> read_borrowed_assets(Connection conn, String userId){
-		PreparedStatement preparedStatement = null;
-	    String query = "SELECT * FROM assets WHERE assetborrowerid = ? AND assetallocationstatus = TRUE";
-	    List<Asset> assets = new ArrayList<>();
-	    try{
-	    	preparedStatement = conn.prepareStatement(query);
-	    	preparedStatement.setString(1, userId);
-	    	ResultSet rs = preparedStatement.executeQuery();
-	    	while(rs.next()){
-	    		Asset asset = asset_resultset(rs);
-	    		assets.add(asset);
-	    	}
-	        return assets;
-	    } 
-	    catch(SQLException e ){
-	        System.out.println(e.getMessage());
-	        return assets;
-	    } 
-	    finally{
-	        if(preparedStatement != null){
-	        	try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	return assets;
-	        }   
-	    }
-	}	
-	static void add_asset(Connection conn, Asset asset){
-		PreparedStatement preparedStatement = null;
-		String query = "INSERT INTO assets(assetid , assetname , assetclass , assetownerid , assetborrowerid"
-	    		+ ", assetdescription , assetsecuritydeposit, assetrequeststatus ,assetallocationstatus"
-	    		+ ") VALUES(?,?,?,?,?,?,?,?,?)";
-	    try{
-	    	preparedStatement = conn.prepareStatement(query);
-	    	preparedStatement.setString(1, asset.getAssetId());
-	    	preparedStatement.setString(2, asset.getAssetName());
-	    	preparedStatement.setString(3, asset.getAssetClass());
-	    	preparedStatement.setString(4, asset.getAssetOwnerId());
-	    	preparedStatement.setString(5, asset.getAssetBorrowerId());
-	    	preparedStatement.setString(6, asset.getAssetDescription());
-	    	preparedStatement.setInt(7, asset.getAssetSecurityDeposit());
-	    	preparedStatement.setBoolean(8, asset.isAssetRequestStatus());
-	    	preparedStatement.setBoolean(9, asset.isAssetAllocationStatus());
+	    	preparedStatement.setString(1, book.getBookId());
+	    	preparedStatement.setString(2, book.getBookName());
+	    	preparedStatement.setString(3, book.getBookGenre());
+	    	preparedStatement.setString(4, book.getBookAuthor());
+	    	preparedStatement.setString(5, book.getLanguage());
+	    	preparedStatement.setString(6, book.getBookOwner());
+	    	preparedStatement.setString(7, book.getBookDescription());
+	    	preparedStatement.setInt(8, book.getBookSecurityDeposit());
+	    	preparedStatement.setBoolean(9, book.isBookAllocationStatus());
 	        preparedStatement.executeUpdate();
 	    } 
 	    catch(SQLException e ){
@@ -291,13 +149,102 @@ public interface DBMethod {
 	        }
 	    }
 	}
-	@SuppressWarnings("unused")
-	static void delete_asset(Connection conn, String assetId){
+	static List<Book> read_books(Connection conn){
 		PreparedStatement preparedStatement = null;
-		String query = "DELETE FROM assets WHERE assetid = ?";
+	    String query = "SELECT * FROM books WHERE bookallocationstatus = FALSE";
+	    List<Book> books = new ArrayList<>();
+	    try{
+	    	preparedStatement = conn.prepareStatement(query);
+	    	ResultSet rs = preparedStatement.executeQuery();
+	    	while(rs.next()){
+	    		Book book = book_resultset(rs);
+	    		books.add(book);
+	    	}
+	        return books;
+	    } 
+	    catch(SQLException e ){
+	        System.out.println(e.getMessage());
+	        return books;
+	    } 
+	    finally{
+	        if(preparedStatement != null){
+	        	try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	return books;
+	        }   
+	    }
+	}
+	static Book read_book(Connection conn, String id){
+		PreparedStatement preparedStatement = null;
+	    String query = "SELECT * FROM books where bookid = ?";
+	    Book book = null;
+	    try{
+	    	preparedStatement = conn.prepareStatement(query);
+	    	preparedStatement.setString(1, id);
+	    	ResultSet rs = preparedStatement.executeQuery();
+	    	while(rs.next()){
+	    		book = book_resultset(rs);
+	    	}
+	        return book;
+	    } 
+	    catch(SQLException e ){
+	        System.out.println(e.getMessage());
+	        return book;
+	    } 
+	    finally{
+	        if(preparedStatement != null){
+	        	try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	return book;
+	        }   
+	    }
+	}
+	static List<Book> read_user_books(Connection conn, String username){
+		PreparedStatement preparedStatement = null;
+	    String query = "SELECT * FROM books WHERE bookowner = ?";
+	    
+	    List<Book> books = new ArrayList<>();
+	    try{
+	    	preparedStatement = conn.prepareStatement(query);
+	    	preparedStatement.setString(1, username);
+	    	ResultSet rs = preparedStatement.executeQuery();
+	    	while(rs.next()){
+	    		Book book = book_resultset(rs);
+	    		books.add(book);
+	    	}
+	        return books;
+	    } 
+	    catch(SQLException e ){
+	        System.out.println(e.getMessage());
+	        return books;
+	    } 
+	    finally{
+	        if(preparedStatement != null){
+	        	try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	return books;
+	        }   
+	    }
+	}	
+	@SuppressWarnings("unused")
+	static void delete_book(Connection conn, String bookId){
+		PreparedStatement preparedStatement = null;
+		String query = "DELETE FROM books WHERE bookid = ?";
 		try{
 			preparedStatement = conn.prepareStatement(query);
-			preparedStatement.setString(1, assetId);
+			preparedStatement.setString(1, bookId);
 			int temp = preparedStatement.executeUpdate();
 		}
 		catch (SQLException ex) {
@@ -305,28 +252,13 @@ public interface DBMethod {
         }
 	}
 	@SuppressWarnings("unused")
-	static void edit_asset_status(Connection conn, String assetId, boolean request_flag, boolean allocation_flag){
+	static void edit_book_status(Connection conn, String bookId, boolean allocation_flag){
 		PreparedStatement preparedStatement = null;
-		String query = "UPDATE assets SET assetrequeststatus = ?, assetallocationstatus = ? WHERE assetid = ? ";
+		String query = "UPDATE books SET bookallocationstatus = ? WHERE bookid = ? ";
 		try{
 			preparedStatement = conn.prepareStatement(query);
-			preparedStatement.setBoolean(1, request_flag);
-			preparedStatement.setBoolean(2, allocation_flag);
-			preparedStatement.setString(3, assetId); 
-			int temp = preparedStatement.executeUpdate();
-		}
-		catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-	}
-	@SuppressWarnings("unused")
-	static void edit_asset_borrower(Connection conn, String assetId, String borrowerid){
-		PreparedStatement preparedStatement = null;
-		String query = "UPDATE assets SET assetborrowerid = ? WHERE assetid = ? ";
-		try{
-			preparedStatement = conn.prepareStatement(query);
-			preparedStatement.setString(1, borrowerid);
-			preparedStatement.setString(2, assetId);
+			preparedStatement.setBoolean(1, allocation_flag);
+			preparedStatement.setString(2, bookId); 
 			int temp = preparedStatement.executeUpdate();
 		}
 		catch (SQLException ex) {
@@ -336,13 +268,15 @@ public interface DBMethod {
 	
 	static Transaction txn_resultset(ResultSet rs) throws SQLException{
 		String transactionId = rs.getString("transactionid");
-        String lenderId = rs.getString("assetlenderid");
+		String bookId = rs.getString("bookid");
+        String lenderId = rs.getString("lenderid");
         String borrowerId = rs.getString("borrowerid");
-        String assetId = rs.getString("assetid");
         String lendDate = rs.getString("lenddate");
         String returnDate = rs.getString("returndate");
-        Transaction transaction = new Transaction(transactionId, lenderId, borrowerId, 
-				assetId, lendDate, returnDate);
+        String phoneno = rs.getString("phoneno");
+        String roomno = rs.getString("roomno");
+        String hall = rs.getString("hall");
+        Transaction transaction = new Transaction(transactionId, bookId, lenderId, borrowerId, lendDate, returnDate, phoneno, roomno, hall);
         return transaction;
 	}
 	static List<Transaction> read_transactions(Connection conn){
@@ -374,24 +308,25 @@ public interface DBMethod {
 	        }
 	    }
 	}
-	static List<Transaction> read_user_transactions(Connection conn, String username){
+	static Map<Book, String> read_borrowed_assets(Connection conn, String username){
 		PreparedStatement preparedStatement = null;
-	    String query = "SELECT * FROM transactions WHERE assetlenderid = ? OR borrowerid = ?";
-	    List<Transaction> transactions = new ArrayList<>();
+	    String query = "SELECT * FROM transactions WHERE borrowerid = ?";
+	    Map <Book, String> hm = new HashMap<Book, String>();
 	    try{
 	    	preparedStatement = conn.prepareStatement(query);
 	    	preparedStatement.setString(1, username);
-	    	preparedStatement.setString(2, username);
 	        ResultSet rs = preparedStatement.executeQuery();
 	        while (rs.next()) {
 	        	Transaction transaction = txn_resultset(rs);
-	            transactions.add(transaction);
+	            String bookId = transaction.getBookId();
+	            Book book = read_book(conn, bookId);
+	            hm.put(book, transaction.getTransactionId());
 	        }
-	        return transactions;
+	        return hm;
 	    } 
 	    catch(SQLException e ){
 	        System.out.println(e.getMessage());
-	        return transactions;
+	        return hm;
 	    } 
 	    finally{
 	        if(preparedStatement != null){
@@ -401,22 +336,37 @@ public interface DBMethod {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	        	return transactions;
+	        	return hm;
 	        }
 	    }
 	}
+	@SuppressWarnings("unused")
+	static void delete_transaction(Connection conn, String txnId){
+		PreparedStatement preparedStatement = null;
+		String query = "DELETE FROM transactions WHERE transactionId = ?";
+		try{
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, txnId);
+			int temp = preparedStatement.executeUpdate();
+		}
+		catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+	}
 	static void add_transaction(Connection conn, Transaction transaction){
 		PreparedStatement preparedStatement = null;
-	    String query = "INSERT INTO transactions(transactionid , assetlenderid , borrowerid , assetid , "
-	    		+ "lenddate , returndate) VALUES(?,?,?,?,?,?)";
+	    String query = "INSERT INTO transactions(transactionid , bookid, lenderid , borrowerid ,  lenddate , returndate, phoneno, roomno, hall) VALUES(?,?,?,?,?,?,?,?,?)";
 	    try{
 	    	preparedStatement = conn.prepareStatement(query);
-	    	preparedStatement.setString(1, transaction.gettransactionId());
-	    	preparedStatement.setString(2, transaction.getLenderId());
-	    	preparedStatement.setString(3, transaction.getBorrowerId());
-	    	preparedStatement.setString(4, transaction.getAssetId());
+	    	preparedStatement.setString(1, transaction.getTransactionId());
+	    	preparedStatement.setString(2, transaction.getBookId());
+	    	preparedStatement.setString(3, transaction.getLenderId());
+	    	preparedStatement.setString(4, transaction.getBorrowerId());
 	    	preparedStatement.setString(5, transaction.getLendDate());
 	    	preparedStatement.setString(6, transaction.getReturnDate());
+	    	preparedStatement.setString(7, transaction.getPhoneno());
+	    	preparedStatement.setString(8, transaction.getRoomno());
+	    	preparedStatement.setString(9, transaction.getHall());
 	        preparedStatement.executeUpdate();
 	    } 
 	    catch(SQLException e ){

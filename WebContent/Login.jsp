@@ -11,8 +11,8 @@
 		<form action="Login" method="post">
 			<div class="form">
 				<h1> Asset Management System</h1>
-				<input type="text" name="name" placeholder="name" required/><br>
-				<input type="password" name="pass" placeholder="password" required/><br>
+				<input type="text" name="username" placeholder="username" required/><br>
+				<input type="password" name="password" placeholder="password" required/><br>
 				<%
 					String ms = (String)request.getAttribute("msg");
 					if(ms!=null){

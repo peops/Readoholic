@@ -2,34 +2,53 @@ package com.readoholic.model;
 
 public class User 
 {
-	private String userName;
+	private String rollno;
+	private String username;
 	private String password;
-	private String name;
-	private String address;
-	private String phoneNo;
+	private String firstName;
+	private String lastName;
+	private String roomno;
+	private String hall;
+	private String phoneno;
 	private String email;
-	
-	public User(String userName, String name, String address, String phoneNo, String email) {
-		this.userName = userName;
-		this.name = name;
-		this.address = address;
-		this.phoneNo = phoneNo;
+
+	//READ_DB
+	public User(String username, String firstName, String lastName, String roomno, String hall, String phoneno,
+			String email) {
+		super();
+		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.roomno = roomno;
+		this.hall = hall;
+		this.phoneno = phoneno;
 		this.email = email;
 	}
-	public User(String userName, String password, String name, String address, String phoneNo, String email) {
-		this.userName = userName;
+	//GET_USERIN
+	public User(String rollno, String username, String password, String firstName, String lastName, String roomno,
+			String hall, String phoneno, String email) {
+		super();
+		this.rollno = rollno;
+		this.username = username;
 		this.password = password;
-		this.name = name;
-		this.address = address;
-		this.phoneNo = phoneNo;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.roomno = roomno;
+		this.hall = hall;
+		this.phoneno = phoneno;
 		this.email = email;
 	}
-	
-	public String getUserName() {
-		return userName;
+	public String getRollno() {
+		return rollno;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setRollno(String rollno) {
+		this.rollno = rollno;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -37,23 +56,35 @@ public class User
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public String getAddress() {
-		return address;
+	public String getLastName() {
+		return lastName;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-	public String getPhoneNo() {
-		return phoneNo;
+	public String getRoomno() {
+		return roomno;
 	}
-	public void setPhoneNo(String phoneNo) {
-		this.phoneNo = phoneNo;
+	public void setRoomno(String roomno) {
+		this.roomno = roomno;
+	}
+	public String getHall() {
+		return hall;
+	}
+	public void setHall(String hall) {
+		this.hall = hall;
+	}
+	public String getPhoneno() {
+		return phoneno;
+	}
+	public void setPhoneno(String phoneno) {
+		this.phoneno = phoneno;
 	}
 	public String getEmail() {
 		return email;
@@ -61,22 +92,18 @@ public class User
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 	@Override
 	public boolean equals(Object other) {
 	    if (!(other instanceof User)) {
 	        return false;
 	    }
 	    User that = (User) other;
-	    return (this.email == that.email) && (this.phoneNo == that.phoneNo);
+	    return (this.rollno == that.rollno);
 	}
-	
 	@Override
-	public String toString() { 
-	    return	"Username: " + this.userName + 
-	    		"\nName: " + this.name + 
-	    		"\nAddress: " + this.address + 
-	    		"\nPhone no.: " + this.phoneNo + 
-	    		"\nEmail: " + this.email;
+	public String toString() {
+		return "User [rollno=" + rollno + ", username=" + username + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", roomno=" + roomno + ", hall=" + hall + ", phoneno="
+				+ phoneno + ", email=" + email + "]";
 	}
 }

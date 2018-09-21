@@ -8,9 +8,7 @@ import javax.servlet.http.*;
 
 import com.readoholic.dblayer.DBConnection;
 import com.readoholic.dblayer.DBMethod;
-import com.readoholic.model.Asset;
-import com.readoholic.model.Transaction;
-import com.readoholic.model.User;
+import com.readoholic.model.Book;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -28,10 +26,10 @@ public class ApproveAsset extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession hs=request.getSession(false);
         if(hs!=null){ 
-			User user=(User)hs.getAttribute("login_user");
-			List<Asset> assets = DBMethod.read_requested_assets(conn,user.getName());
+//			User user=(User)hs.getAttribute("login_user");
+			List<Book> books = DBMethod.read_books(conn);
 			RequestDispatcher rd = request.getRequestDispatcher("ApproveAsset.jsp");
-			request.setAttribute("assetlist", assets);
+			request.setAttribute("booklist", books);
 			rd.forward(request, response);
         }
         else{
@@ -41,13 +39,13 @@ public class ApproveAsset extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs=request.getSession(false);
         if(hs!=null){ 
-			User user=(User)hs.getAttribute("login_user");
-			String assetId=request.getParameter("accept");
-			Asset asset = DBMethod.read_asset(conn, assetId);
-			DBMethod.edit_asset_status(conn, assetId, false, true);
-			Transaction transaction = new Transaction(assetId, user.getName(), asset.getAssetBorrowerId(),20);
-			DBMethod.add_transaction(conn, transaction);
-			response.sendRedirect("Home");
+//			User user=(User)hs.getAttribute("login_user");
+//			String assetId=request.getParameter("accept");
+//			Asset asset = DBMethod.read_asset(conn, assetId);
+//			DBMethod.edit_asset_status(conn, assetId, false, true);
+//			Transaction transaction = new Transaction(assetId, user.getName(), asset.getAssetBorrowerId(),20);
+//			DBMethod.add_transaction(conn, transaction);
+//			response.sendRedirect("Home");
         }
         else{
         	response.sendRedirect("Login");

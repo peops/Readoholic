@@ -7,7 +7,7 @@ import javax.servlet.http.*;
 
 import com.readoholic.dblayer.DBConnection;
 import com.readoholic.dblayer.DBMethod;
-import com.readoholic.model.Asset;
+import com.readoholic.model.Book;
 import com.readoholic.model.User;
 
 import java.io.IOException;
@@ -37,14 +37,16 @@ public class AddAsset extends HttpServlet {
 		HttpSession hs=request.getSession(false);
 		if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
-			String assetname=request.getParameter("assetname");
-			String assetclass=request.getParameter("class");
-			String description=request.getParameter("description");
-			String sec=request.getParameter("security");
-			int security=Integer.parseInt(sec);
+			String bookName=request.getParameter("bookName");
+			String bookGenre=request.getParameter("bookGenre");
+			String bookAuthor=request.getParameter("bookAuthor");
+			String language=request.getParameter("language");
+			String bookDescription=request.getParameter("bookDescription");
+			String bookSecurityDeposit=request.getParameter("bookSecurityDeposit");
+			int security=Integer.parseInt(bookSecurityDeposit);
 			
-			Asset asset=new Asset(assetname,assetclass,user.getName(),description,security);
-			DBMethod.add_asset(conn, asset);
+			Book book=new Book(bookName, bookGenre, bookAuthor, language, user.getUsername(), bookDescription, security, false);
+			DBMethod.add_book(conn, book);
 			response.sendRedirect("Home");
         }
         else{

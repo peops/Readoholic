@@ -11,26 +11,22 @@
 		<form action="ViewBorrowedAsset" method="post">
 			<%
 				@SuppressWarnings("unchecked")	
-				List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
-				if(assets.size()==0){
+				Map<Book, String> books=(Map<Book, String>)request.getAttribute("booklist");
+				if(books.size()==0){
 			%>
 					<h2 align="center" style="padding:30px;">Nothing to show here.</h2>
 			<%
 				}
 				else{
-					for(Asset b : assets) {		
+					for (Map.Entry<Book, String> entry : books.entrySet()){		
 			%>
 						<div class="row">
 						  <div class="column" style="background-color:#aaa;"> 
-							<h2>Product Id: <%out.print(b.getAssetId()); %></h2>
+							<h2>Product Id: <%out.print(entry.getKey().getBookId()); %></h2>
 							<p>
-								Product Name: 		<%out.print(b.getAssetName()); %> <br>
-								Product Class: 		<%out.print(b.getAssetClass()); %> <br> 
-								Product Description: <%out.print(b.getAssetDescription()); %>  <br>
-								Security Deposit: 	<%out.print(b.getAssetSecurityDeposit()); %> <br>
-								Owners Id:			<%out.print(b.getAssetOwnerId()); %><br>
-					       		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-					       		<button type="submit" name="return" value="<%out.print(b.getAssetId());%>">Return</button>
+								Product Name: 		<%out.print(entry.getKey().getBookName()); %> <br>
+								&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+					       		<button type="submit" name="return" value="<%out.print(entry.getKey().getBookId()+":"+entry.getValue());%>">Return</button>
 				       		</p>
 				       	  </div>
 						</div>

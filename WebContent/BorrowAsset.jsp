@@ -11,28 +11,24 @@
 		<form action="BorrowAsset" method="post">
 		<%
 			@SuppressWarnings("unchecked")
-			List<Asset> assets=(List<Asset>)request.getAttribute("assetlist");
-			if(assets.size()==0){
+			List<Book> books=(List<Book>)request.getAttribute("booklist");
+			if(books.size()==0){
 		%>
 		<h2 align="center" style="padding:30px;">Nothing to show here.</h2>
 		<%
 			}
 			else{
-				for(Asset b : assets) {
-					if(b.isAssetRequestStatus()==false&&b.isAssetAllocationStatus()==false){
+				for(Book b : books) {
+					if(b.isBookAllocationStatus()==false){
 		%>
 		
 		<div class="row">
 		  	<div class="column" style="background-color:#aaa;"> 
-			  	<h2>Product Id: <%out.print(b.getAssetId()); %></h2>
+			  	<h2>Product Id: <%out.print(b.getBookId()); %></h2>
 			    <p>
-					Product Name: 		<%out.print(b.getAssetName()); %> <br>
-					Product Class: 		<%out.print(b.getAssetClass()); %> <br> 
-					Product Description: <%out.print(b.getAssetDescription()); %>  <br>
-					Security Deposit: 	<%out.print(b.getAssetSecurityDeposit()); %> <br>
-					Owners Id:			<%out.print(b.getAssetOwnerId()); %><br>
-			        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-			        <button type="submit" name="lend" value="<%out.print(b.getAssetId());%>"> Rent Asset </button>
+					Product Name: 		<%out.print(b.getBookName()); %> <br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+			        <button type="submit" name="lend" value="<%out.print(b.getBookId());%>"> Rent Asset </button>
 			    </p>
 		    </div>		
 		</div>

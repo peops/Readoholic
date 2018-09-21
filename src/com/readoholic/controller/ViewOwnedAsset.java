@@ -8,7 +8,7 @@ import javax.servlet.http.*;
 
 import com.readoholic.dblayer.DBConnection;
 import com.readoholic.dblayer.DBMethod;
-import com.readoholic.model.Asset;
+import com.readoholic.model.Book;
 import com.readoholic.model.User;
 
 import java.io.IOException;
@@ -28,10 +28,10 @@ public class ViewOwnedAsset extends HttpServlet implements DBMethod{
         HttpSession hs=request.getSession(false);
         if(hs!=null){ 
 			User user=(User)hs.getAttribute("login_user");
-			List<Asset> assets = DBMethod.read_user_assets(conn, user.getName());
+			List<Book> assets = DBMethod.read_user_books(conn, user.getUsername());
 			if(assets!=null){
 				RequestDispatcher rd = request.getRequestDispatcher("ViewOwnedAsset.jsp");
-				request.setAttribute("assetlist", assets);
+				request.setAttribute("booklist", assets);
 				rd.forward(request, response);
 			}			
 			else{
@@ -43,7 +43,7 @@ public class ViewOwnedAsset extends HttpServlet implements DBMethod{
 		HttpSession hs=request.getSession(false);
         if(hs!=null){ 
 			String id=request.getParameter("delete");
-	    	DBMethod.delete_asset(conn, id);
+	    	DBMethod.delete_book(conn, id);
 	    	response.sendRedirect("Home");
         }
 	}

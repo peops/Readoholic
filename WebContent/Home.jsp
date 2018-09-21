@@ -10,7 +10,7 @@
 			HttpSession session=request.getSession();
 			User user=(User)session.getAttribute("login_user");
 		%>
-		<h1> Welcome <% out.print(user.getName()); %>	</h1>
+		<h1> Welcome <% out.print(user.getUsername()); %>	</h1>
 		<h2> What do you want to do today?</h2>
 		<nav>
 		  <ul>

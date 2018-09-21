@@ -10,10 +10,13 @@
 		  <div class="form" align="left">
 		  	<h2> ADD ASSET</h2>
 		    <form action="AddAsset" method="post">
-			  <input type="text" name="assetname" placeholder="Asset name" required/>
-		      <input type="text" name="class" placeholder="Asset Class" required/>
-		      <input type="text" name="description" placeholder="Description(Fridge,Tv,etc)"/>
-			  <input type="text" name="security" placeholder="Security Deposit" required/>	  
+			  <input type="text" name="bookName" placeholder="bookName" required/>
+		  	  <input type="text" name="bookGenre" placeholder="bookGenre" required/>
+		  	  <input type="text" name="bookAuthor" placeholder="bookAuthor" required/>
+		  	  <input type="text" name="language" placeholder="language" required/>
+		  	  <input type="text" name="bookOwner" placeholder="bookOwner" required/>
+		  	  <input type="text" name="bookDescription" placeholder="bookDescription" required/>
+		  	  <input type="text" name="bookSecurityDeposit" placeholder="Security Deposit" required/>	  
 		      <button type="submit">submit</button>
 		    </form>
 		    <br>
