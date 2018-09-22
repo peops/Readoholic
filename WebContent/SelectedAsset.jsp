@@ -39,7 +39,6 @@
     <link rel="shortcut icon" href="favicon.png">
 
 
-
 </head>
 
 <body>
@@ -202,66 +201,125 @@
 
     <!-- *** NAVBAR END *** -->
 
+
+
+
     <div id="all">
 
         <div id="content">
             <div class="container">
 
                 <div class="col-md-12">
-
                     <ul class="breadcrumb">
                         <li><a href="#">Home</a>
                         </li>
-                        <li>Borrow</li>
+                        <li><a href="#">Borrow</a>
                     </ul>
 
-                    <div class="box">
-                        <h1>Borrow Books</h1>
-                        <p>We provide a platform for lenders to display the books available with them which they wish to lend.</p>
-                    </div>
+                </div>
+				<%
+					@SuppressWarnings("unchecked")
+					Book book=(Book)request.getAttribute("book");
+				%>
+                <div class="col-md-9">
 
-                    <div class="box info-bar">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-4 products-showing">
-                                Showing <strong>12</strong> of <strong>25</strong> products
+                    <div class="row" id="productMain">
+                        <div class="col-sm-6">
+                            <div id="mainImage">
+                                <img src="img/detailbig1.jpg" alt="" class="img-responsive">
                             </div>
 
-                            <div class="col-sm-12 col-md-8  products-number-sort">
-                                <div class="row">
-                                    <form class="form-inline">
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="products-number">
-                                                <strong>Show</strong>  <a href="#" class="btn btn-default btn-sm btn-primary">12</a>  <a href="#" class="btn btn-default btn-sm">24</a>  <a href="#" class="btn btn-default btn-sm">All</a> products
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="products-sort-by">
-                                                <strong>Sort by</strong>
-                                                <select name="sort-by" class="form-control">
-                                                    <option>Price</option>
-                                                    <option>Name</option>
-                                                    <option>Sales first</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </form>
+                            <div class="ribbon sale">
+                                <div class="theribbon">SALE</div>
+                                <div class="ribbon-background"></div>
+                            </div>
+                            <!-- /.ribbon -->
+
+                            <div class="ribbon new">
+                                <div class="theribbon">NEW</div>
+                                <div class="ribbon-background"></div>
+                            </div>
+                            <!-- /.ribbon -->
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="box">
+                                <h1 class="text-center"><%out.print(book.getBookName());%></h1>
+                                <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to product details, material & care and sizing</a>
+                                </p>
+                                <p class="price"><%out.print(book.getBookGenre());%></p>
+
+                                <p class="text-center buttons">
+                                    <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a> 
+                                    <a href="basket.html" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
+                                </p>
+
+
+                            </div>
+
+                            <div class="row" id="thumbs">
+                                <div class="col-xs-4">
+                                    <a href="img/detailbig1.jpg" class="thumb">
+                                        <img src="img/detailsquare.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a href="img/detailbig2.jpg" class="thumb">
+                                        <img src="img/detailsquare2.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a href="img/detailbig3.jpg" class="thumb">
+                                        <img src="img/detailsquare3.jpg" alt="" class="img-responsive">
+                                    </a>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
-                    <div class="row products">
-                    <%
-						@SuppressWarnings("unchecked")
-						List<Book> books=(List<Book>)request.getAttribute("booklist");
-						if(books.size()==0){
-						}
-						else{
-							for(Book b : books) {
-								if(b.isBookAllocationStatus()==false){
-					%>
-                        <div class="col-md-3 col-sm-4">
-                            <div class="product">
+
+                    <div class="box" id="details">
+                        <p>
+                            <h4>Book details</h4>
+                            <p><%out.print(book.getBookDescription());%></p>
+                            <h4><%out.print(book.getBookAuthor());%></h4>
+                            <ul>
+                                <li>Polyester</li>
+                                <li>Machine wash</li>
+                            </ul>
+                            <h4>Size Fit</h4>
+                            <ul>
+                                <li>Regular fit</li>
+                                <li>The model (height 5'8" and chest 33") is wearing a size S</li>
+                            </ul>
+
+                            <blockquote>
+                                <p><em>Define style this season with Armani's new range of trendy tops, crafted with intricate details. Create a chic statement look by teaming this lace number with skinny jeans and pumps.</em>
+                                </p>
+                            </blockquote>
+
+                            <hr>
+                            <div class="social">
+                                <h4>Show it to your friends</h4>
+                                <p>
+                                    <a href="#" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
+                                    <a href="#" class="external gplus" data-animate-hover="pulse"><i class="fa fa-google-plus"></i></a>
+                                    <a href="#" class="external twitter" data-animate-hover="pulse"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
+                                </p>
+                            </div>
+                    </div>
+
+                    <div class="row same-height-row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="box same-height">
+                                <h3>You may also like these products</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product same-height">
                                 <div class="flip-container">
                                     <div class="flipper">
                                         <div class="front">
@@ -280,75 +338,171 @@
                                     <img src="img/product2.jpg" alt="" class="img-responsive">
                                 </a>
                                 <div class="text">
-                                    <h3><a href="detail.html"><%out.print(b.getBookName());%></a></h3>
-                                    <p class="price"><%out.print(b.getBookGenre()); %></p>
-                                    <p class="buttons">
-                                    	<a href="SelectedAsset?id=<%out.print(b.getBookId()); %>" class="btn btn-default">View detail</a>
-                                        <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
+                                    <h3>Fur coat</h3>
+                                    <p class="price">$143</p>
                                 </div>
-                                <!-- /.text -->
-
-                                <div class="ribbon sale">
-                                    <div class="theribbon">SALE</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                                <div class="ribbon new">
-                                    <div class="theribbon">NEW</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                                <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
                             </div>
                             <!-- /.product -->
                         </div>
-					<% 
-								}
-							}
-						} 
-					%>
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product same-height">
+                                <div class="flip-container">
+                                    <div class="flipper">
+                                        <div class="front">
+                                            <a href="detail.html">
+                                                <img src="img/product1.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                        <div class="back">
+                                            <a href="detail.html">
+                                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="detail.html" class="invisible">
+                                    <img src="img/product1.jpg" alt="" class="img-responsive">
+                                </a>
+                                <div class="text">
+                                    <h3>Fur coat</h3>
+                                    <p class="price">$143</p>
+                                </div>
+                            </div>
+                            <!-- /.product -->
+                        </div>
+
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product same-height">
+                                <div class="flip-container">
+                                    <div class="flipper">
+                                        <div class="front">
+                                            <a href="detail.html">
+                                                <img src="img/product3.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                        <div class="back">
+                                            <a href="detail.html">
+                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="detail.html" class="invisible">
+                                    <img src="img/product3.jpg" alt="" class="img-responsive">
+                                </a>
+                                <div class="text">
+                                    <h3>Fur coat</h3>
+                                    <p class="price">$143</p>
+
+                                </div>
+                            </div>
+                            <!-- /.product -->
+                        </div>
+
                     </div>
-                    <!-- /.products -->
 
-                    <div class="pages">
+                    <div class="row same-height-row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="box same-height">
+                                <h3>Products viewed recently</h3>
+                            </div>
+                        </div>
 
-                        <p class="loadMore">
-                            <a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a>
-                        </p>
 
-                        <ul class="pagination">
-                            <li><a href="#">&laquo;</a>
-                            </li>
-                            <li class="active"><a href="#">1</a>
-                            </li>
-                            <li><a href="#">2</a>
-                            </li>
-                            <li><a href="#">3</a>
-                            </li>
-                            <li><a href="#">4</a>
-                            </li>
-                            <li><a href="#">5</a>
-                            </li>
-                            <li><a href="#">&raquo;</a>
-                            </li>
-                        </ul>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product same-height">
+                                <div class="flip-container">
+                                    <div class="flipper">
+                                        <div class="front">
+                                            <a href="detail.html">
+                                                <img src="img/product2.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                        <div class="back">
+                                            <a href="detail.html">
+                                                <img src="img/product2_2.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="detail.html" class="invisible">
+                                    <img src="img/product2.jpg" alt="" class="img-responsive">
+                                </a>
+                                <div class="text">
+                                    <h3>Fur coat</h3>
+                                    <p class="price">$143</p>
+                                </div>
+                            </div>
+                            <!-- /.product -->
+                        </div>
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product same-height">
+                                <div class="flip-container">
+                                    <div class="flipper">
+                                        <div class="front">
+                                            <a href="detail.html">
+                                                <img src="img/product1.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                        <div class="back">
+                                            <a href="detail.html">
+                                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="detail.html" class="invisible">
+                                    <img src="img/product1.jpg" alt="" class="img-responsive">
+                                </a>
+                                <div class="text">
+                                    <h3>Fur coat</h3>
+                                    <p class="price">$143</p>
+                                </div>
+                            </div>
+                            <!-- /.product -->
+                        </div>
+
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product same-height">
+                                <div class="flip-container">
+                                    <div class="flipper">
+                                        <div class="front">
+                                            <a href="detail.html">
+                                                <img src="img/product3.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                        <div class="back">
+                                            <a href="detail.html">
+                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="detail.html" class="invisible">
+                                    <img src="img/product3.jpg" alt="" class="img-responsive">
+                                </a>
+                                <div class="text">
+                                    <h3>Fur coat</h3>
+                                    <p class="price">$143</p>
+
+                                </div>
+                            </div>
+                            <!-- /.product -->
+                        </div>
+
                     </div>
-
 
                 </div>
                 <!-- /.col-md-9 -->
-
             </div>
             <!-- /.container -->
         </div>
         <!-- /#content -->
+
 
 
         <!-- *** FOOTER *** -->
@@ -471,8 +625,6 @@
         <!-- /#footer -->
 
         <!-- *** FOOTER END *** -->
-
-
 
 
 

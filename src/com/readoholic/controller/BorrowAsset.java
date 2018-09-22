@@ -10,6 +10,7 @@ import javax.servlet.http.*;
 import com.readoholic.dblayer.DBConnection;
 import com.readoholic.dblayer.DBMethod;
 import com.readoholic.model.Book;
+import com.readoholic.model.Quote;
 import com.readoholic.model.Transaction;
 import com.readoholic.model.User;
 
@@ -37,7 +38,9 @@ public class BorrowAsset extends HttpServlet {
 					filtered_books.add(a);
 				}
 			}
+			Quote quote = DBMethod.read_quote(conn);
 			RequestDispatcher rd = request.getRequestDispatcher("BorrowAsset.jsp");
+			request.setAttribute("quote", quote);
 			request.setAttribute("booklist", filtered_books);
 			rd.forward(request, response);
         }

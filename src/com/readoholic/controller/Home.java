@@ -38,7 +38,6 @@ public class Home extends HttpServlet {
 				}
 			}
 			Quote quote = DBMethod.read_quote(conn);
-			System.out.println(quote.getQuotetext());
 			RequestDispatcher rd = request.getRequestDispatcher("Home.jsp");
 			request.setAttribute("quote", quote);
 			request.setAttribute("booklist", filtered_books);
